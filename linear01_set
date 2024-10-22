@@ -1,0 +1,84 @@
+int RPWM1 = 2;  // RPWM 핀에 아두이노 2번 연결
+int LPWM1 = 3;  // LPWM 핀에 아두이노 3번 연결
+int RPWM2 = 4;  // RPWM 핀에 아두이노 4번 연결
+int LPWM2 = 5;  // LPWM 핀에 아두이노 5번 연결
+int Speed = 10; // Speed 핀
+int signalPin = 8;  // signal 핀
+int signal; // signal 값
+
+void setup() {
+  pinMode(RPWM1, OUTPUT); 
+  pinMode(LPWM1, OUTPUT);
+  pinMode(RPWM2, OUTPUT); 
+  pinMode(LPWM2, OUTPUT);
+  pinMode(Speed, OUTPUT);
+  pinMode(signalPin, INPUT);
+  Serial.begin(9600); // 시리얼 통신 시작
+}
+
+void loop() {
+  signal = digitalRead(signalPin);
+
+  // 첫 번째 모터 전진
+  digitalWrite(RPWM1, HIGH);
+  digitalWrite(LPWM1, LOW);
+  analogWrite(Speed, 6000);
+  Serial.println("Motor 1 Forward");
+  Serial.print("Speed: ");
+  Serial.println(6000);
+  Serial.print("RPWM1: ");
+  Serial.println(digitalRead(RPWM1));
+  Serial.print("LPWM1: ");
+  Serial.println(digitalRead(LPWM1));
+  delayWithSerialPrint(15000);
+
+  // 첫 번째 모터 후진
+  digitalWrite(RPWM1, LOW);
+  digitalWrite(LPWM1, HIGH);
+  analogWrite(Speed, 6000);
+  Serial.println("Motor 1 Reverse");
+  Serial.print("Speed: ");
+  Serial.println(6000);
+  Serial.print("RPWM1: ");
+  Serial.println(digitalRead(RPWM1));
+  Serial.print("LPWM1: ");
+  Serial.println(digitalRead(LPWM1));
+  delayWithSerialPrint(15000);
+
+  // 두 번째 모터 전진
+  digitalWrite(RPWM2, HIGH);
+  digitalWrite(LPWM2, LOW);
+  analogWrite(Speed, 6000);
+  Serial.println("Motor 2 Forward");
+  Serial.print("Speed: ");
+  Serial.println(6000);
+  Serial.print("RPWM2: ");
+  Serial.println(digitalRead(RPWM2));
+  Serial.print("LPWM2: ");
+  Serial.println(digitalRead(LPWM2));
+  delayWithSerialPrint(15000);
+
+  // 두 번째 모터 후진
+  digitalWrite(RPWM2, LOW);
+  digitalWrite(LPWM2, HIGH);
+  analogWrite(Speed, 6000);
+  Serial.println("Motor 2 Reverse");
+  Serial.print("Speed: ");
+  Serial.println(6000);
+  Serial.print("RPWM2: ");
+  Serial.println(digitalRead(RPWM2));
+  Serial.print("LPWM2: ");
+  Serial.println(digitalRead(LPWM2));
+  delayWithSerialPrint(15000);
+}
+
+void delayWithSerialPrint(unsigned long delayTime) {
+  unsigned long start = millis();
+  while (millis() - start < delayTime) {
+    unsigned long remaining = delayTime - (millis() - start);
+    Serial.print("Remaining delay: ");
+    Serial.print(remaining);
+    Serial.println(" ms");
+    delay(1000);  // 1초마다 남은 시간 출력
+  }
+}
